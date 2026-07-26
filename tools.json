@@ -1,0 +1,1411 @@
+[
+  {
+    "name": "calculate_pue",
+    "description": "Calculate Power Usage Effectiveness (PUE) for a data centre or server room. Returns PUE score, efficiency rating, annual cost estimate, and engineering recommendations.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "it_load_kw": {
+          "type": "number",
+          "description": "IT equipment power draw in kW. Example: 500"
+        },
+        "cooling_kw": {
+          "type": "number",
+          "description": "Total cooling system power in kW. Example: 200"
+        },
+        "ups_losses_kw": {
+          "type": "number",
+          "description": "UPS and power distribution losses in kW. Example: 25"
+        },
+        "lighting_kw": {
+          "type": "number",
+          "description": "Lighting power in kW. Example: 1.5"
+        }
+      },
+      "required": [
+        "it_load_kw",
+        "cooling_kw",
+        "ups_losses_kw",
+        "lighting_kw"
+      ]
+    }
+  },
+  {
+    "name": "check_nis2_readiness",
+    "description": "Assess NIS2 Directive (EU 2022/2555) compliance readiness. Returns compliance score (0-18), maturity level, estimated fine exposure, and prioritised remediation actions.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "has_ciso": {
+          "type": "boolean"
+        },
+        "has_ot_policy": {
+          "type": "boolean"
+        },
+        "has_board_reporting": {
+          "type": "boolean"
+        },
+        "has_asset_inventory": {
+          "type": "boolean"
+        },
+        "has_network_segmentation": {
+          "type": "boolean"
+        },
+        "has_ir_plan": {
+          "type": "boolean"
+        },
+        "has_24h_reporting": {
+          "type": "boolean"
+        },
+        "has_supplier_assessment": {
+          "type": "boolean"
+        },
+        "has_ot_monitoring": {
+          "type": "boolean"
+        },
+        "organisation_size": {
+          "type": "string",
+          "enum": [
+            "essential",
+            "important",
+            "other"
+          ]
+        },
+        "sector": {
+          "type": "string",
+          "description": "e.g. energy, transport, healthcare, banking"
+        }
+      },
+      "required": [
+        "has_ciso",
+        "has_ot_policy",
+        "has_board_reporting",
+        "has_asset_inventory",
+        "has_network_segmentation",
+        "has_ir_plan",
+        "has_24h_reporting",
+        "has_supplier_assessment",
+        "has_ot_monitoring",
+        "organisation_size",
+        "sector"
+      ]
+    }
+  },
+  {
+    "name": "assess_epbd_score",
+    "description": "Assess EU EPBD (2024) compliance. Returns compliance score, renovation cost estimate, deadline pressure, and priority retrofit measures.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "building_type": {
+          "type": "string",
+          "description": "e.g. office, residential, retail, school, hospital"
+        },
+        "year_built": {
+          "type": "integer"
+        },
+        "current_epc": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G"
+          ]
+        },
+        "heating_system": {
+          "type": "string",
+          "description": "gas_boiler, heat_pump, district_heating, electric, oil_boiler, biomass"
+        },
+        "has_solar_pv": {
+          "type": "boolean"
+        },
+        "floor_area_m2": {
+          "type": "number"
+        },
+        "country": {
+          "type": "string",
+          "description": "e.g. germany, france, netherlands, ireland, uk"
+        }
+      },
+      "required": [
+        "building_type",
+        "year_built",
+        "current_epc",
+        "heating_system",
+        "has_solar_pv",
+        "floor_area_m2",
+        "country"
+      ]
+    }
+  },
+  {
+    "name": "estimate_cooling_load",
+    "description": "Estimate cooling load using CIBSE Guide B2 / ASHRAE methodology. Returns required capacity, installed capacity with redundancy, system recommendation, and annual energy.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "space_type": {
+          "type": "string",
+          "enum": [
+            "office",
+            "data_centre",
+            "server_room",
+            "retail",
+            "industrial"
+          ]
+        },
+        "floor_area_m2": {
+          "type": "number"
+        },
+        "it_load_kw": {
+          "type": "number",
+          "description": "Required for data_centre/server_room. Set 0 for others."
+        },
+        "occupancy_persons": {
+          "type": "integer"
+        },
+        "climate_zone": {
+          "type": "string",
+          "enum": [
+            "northern_eu",
+            "central_eu",
+            "southern_eu",
+            "uk",
+            "uae_gcc"
+          ]
+        },
+        "redundancy": {
+          "type": "string",
+          "enum": [
+            "N",
+            "N+1",
+            "2N"
+          ]
+        }
+      },
+      "required": [
+        "space_type",
+        "floor_area_m2",
+        "it_load_kw",
+        "occupancy_persons",
+        "climate_zone",
+        "redundancy"
+      ]
+    }
+  },
+  {
+    "name": "check_uae_bim_compliance",
+    "description": "Check UAE BIM mandate applicability (Dubai Circular 196, Abu Dhabi DMT, Sharjah). Returns mandate status, compliance score, required LOD, and submission checklist.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "building_area_m2": {
+          "type": "number"
+        },
+        "building_floors": {
+          "type": "integer"
+        },
+        "emirate": {
+          "type": "string",
+          "enum": [
+            "dubai",
+            "abu_dhabi",
+            "sharjah",
+            "other"
+          ]
+        },
+        "building_type": {
+          "type": "string",
+          "enum": [
+            "residential",
+            "commercial",
+            "healthcare",
+            "government",
+            "mixed"
+          ]
+        },
+        "has_bim_model": {
+          "type": "boolean"
+        },
+        "bim_software": {
+          "type": "string",
+          "description": "e.g. Revit 2024"
+        },
+        "ifc_export": {
+          "type": "boolean"
+        },
+        "has_bep": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "building_area_m2",
+        "building_floors",
+        "emirate",
+        "building_type",
+        "has_bim_model",
+        "bim_software",
+        "ifc_export",
+        "has_bep"
+      ]
+    }
+  },
+  {
+    "name": "check_uae_cybersecurity",
+    "description": "Assess UAE cybersecurity regulatory compliance (NESA IAS, Dubai ISR, CBUAE, TDRA). Returns applicable framework, compliance score, critical gaps, and mandatory controls.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "organisation_type": {
+          "type": "string",
+          "enum": [
+            "government",
+            "critical_infrastructure",
+            "financial",
+            "telecom",
+            "other"
+          ]
+        },
+        "emirate": {
+          "type": "string",
+          "description": "dubai, abu_dhabi, sharjah, federal, other"
+        },
+        "has_isms": {
+          "type": "boolean"
+        },
+        "has_incident_response": {
+          "type": "boolean"
+        },
+        "has_vulnerability_assessment": {
+          "type": "boolean"
+        },
+        "has_third_party_audit": {
+          "type": "boolean"
+        },
+        "has_data_classification": {
+          "type": "boolean"
+        },
+        "is_cloud_hosted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "organisation_type",
+        "emirate",
+        "has_isms",
+        "has_incident_response",
+        "has_vulnerability_assessment",
+        "has_third_party_audit",
+        "has_data_classification",
+        "is_cloud_hosted"
+      ]
+    }
+  },
+  {
+    "name": "check_grid_feasibility_uae",
+    "description": "Assess UAE grid connection feasibility (DEWA/ADDC/SEWA/FEWA). Returns feasibility score, connection timeline, recommended voltage, substation requirement, and next steps.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "site_location": {
+          "type": "string",
+          "enum": [
+            "dubai",
+            "abu_dhabi",
+            "sharjah",
+            "ajman",
+            "other"
+          ]
+        },
+        "power_requirement_mw": {
+          "type": "number"
+        },
+        "voltage_level": {
+          "type": "string",
+          "enum": [
+            "LV",
+            "MV",
+            "HV"
+          ]
+        },
+        "intended_use": {
+          "type": "string",
+          "enum": [
+            "data_centre",
+            "commercial",
+            "industrial",
+            "mixed"
+          ]
+        },
+        "has_existing_supply": {
+          "type": "boolean"
+        },
+        "target_completion_year": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "site_location",
+        "power_requirement_mw",
+        "voltage_level",
+        "intended_use",
+        "has_existing_supply",
+        "target_completion_year"
+      ]
+    }
+  },
+  {
+    "name": "get_technical_dd_quote",
+    "description": "Generate an indicative Technical Due Diligence (TDD) fee estimate. Returns preliminary and full DD fee ranges (GBP), turnaround days, and contact CTA.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "building_type": {
+          "type": "string",
+          "description": "office, data_centre, industrial, retail, residential, mixed_use, hotel, warehouse, healthcare"
+        },
+        "gross_area_m2": {
+          "type": "number"
+        },
+        "transaction_type": {
+          "type": "string",
+          "enum": [
+            "acquisition",
+            "disposal",
+            "refinancing",
+            "planning"
+          ]
+        },
+        "disciplines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "structural",
+              "mep",
+              "compliance",
+              "energy",
+              "nis2"
+            ]
+          }
+        },
+        "geography": {
+          "type": "string",
+          "enum": [
+            "uk",
+            "eu",
+            "uae",
+            "gcc"
+          ]
+        },
+        "timeline_weeks": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "building_type",
+        "gross_area_m2",
+        "transaction_type",
+        "disciplines",
+        "geography",
+        "timeline_weeks"
+      ]
+    }
+  },
+  {
+    "name": "calculate_carbon",
+    "description": "Calculate operational + embodied carbon and net-zero gap (CIBSE TM65 / RICS WLCA). Returns carbon intensity, benchmark, and prioritised reduction measures with payback.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "floor_area_m2": {
+          "type": "number"
+        },
+        "building_type": {
+          "type": "string",
+          "description": "office, residential, retail, industrial, hospital, warehouse, hotel"
+        },
+        "country": {
+          "type": "string",
+          "description": "ISO-2: gb, de, fr, nl, es, pl, ro, it, ae, us"
+        },
+        "energy_kwh_year": {
+          "type": "number",
+          "description": "Measured annual energy; 0 to use benchmark"
+        },
+        "construction_year": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "floor_area_m2",
+        "building_type",
+        "country"
+      ]
+    }
+  },
+  {
+    "name": "thermal_load",
+    "description": "Thermal Load Estimator for data centres / critical facilities. Returns total heat load, cooling capacity, units, airflow, chiller size, PUE estimate, power density, and a CRAC/CRAH/DLC/immersion comparison.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "it_load_kw": {
+          "type": "number"
+        },
+        "ups_efficiency_pct": {
+          "type": "number",
+          "description": "1-99.9"
+        },
+        "lighting_kw": {
+          "type": "number",
+          "description": "default 5"
+        },
+        "room_area_m2": {
+          "type": "number"
+        },
+        "cooling_type": {
+          "type": "string",
+          "enum": [
+            "crac",
+            "crah",
+            "dlc",
+            "immersion"
+          ]
+        },
+        "redundancy": {
+          "type": "string",
+          "enum": [
+            "n",
+            "n1",
+            "2n"
+          ]
+        },
+        "ambient_temp_c": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "it_load_kw",
+        "ups_efficiency_pct",
+        "room_area_m2",
+        "cooling_type",
+        "redundancy",
+        "ambient_temp_c"
+      ]
+    }
+  },
+  {
+    "name": "roi_calculator",
+    "description": "Engineering ROI calculator. Returns current manual cost, annual saving, net benefit, ROI %, payback months, 3-year NPV and a verdict.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "team_size": {
+          "type": "number"
+        },
+        "hourly_rate": {
+          "type": "number"
+        },
+        "manual_hours": {
+          "type": "number",
+          "description": "manual hours per week"
+        },
+        "software_cost": {
+          "type": "number",
+          "description": "annual GBP (default 0)"
+        },
+        "efficiency_gain_pct": {
+          "type": "number",
+          "description": "<=90"
+        },
+        "implementation_time_months": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "team_size",
+        "hourly_rate",
+        "manual_hours",
+        "efficiency_gain_pct",
+        "implementation_time_months"
+      ]
+    }
+  },
+  {
+    "name": "building_carbon_footprint",
+    "description": "Building carbon footprint (Scope 1/2/3) with CRREM stranding check and embodied carbon. Returns per-scope tCO2e, intensity, CRREM compliance, net-zero gap and priority actions.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "building_type": {
+          "type": "string",
+          "enum": [
+            "office",
+            "retail",
+            "industrial",
+            "datacentre",
+            "healthcare",
+            "education",
+            "residential"
+          ]
+        },
+        "floor_area_m2": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string",
+          "enum": [
+            "uk",
+            "eu",
+            "uae"
+          ]
+        },
+        "year_built": {
+          "type": "integer"
+        },
+        "elec_kwh_year": {
+          "type": "number"
+        },
+        "gas_kwh_year": {
+          "type": "number"
+        },
+        "heat_kwh_year": {
+          "type": "number"
+        },
+        "refrigerant": {
+          "type": "string",
+          "enum": [
+            "hfc",
+            "hfo",
+            "none"
+          ]
+        },
+        "occupancy": {
+          "type": "number"
+        },
+        "renewable_pct": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "building_type",
+        "floor_area_m2",
+        "location",
+        "year_built"
+      ]
+    }
+  },
+  {
+    "name": "building_readiness",
+    "description": "Building Readiness assessment for change-of-use / conversion. Returns a 0-100 readiness score, project complexity, four domain scores (structural, MEP, compliance, digital/BIM) with RAG, and recommendations.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "current_use": {
+          "type": "string",
+          "enum": [
+            "office",
+            "industrial",
+            "retail",
+            "residential"
+          ]
+        },
+        "proposed_use": {
+          "type": "string",
+          "enum": [
+            "office",
+            "residential",
+            "healthcare",
+            "industrial",
+            "retail"
+          ]
+        },
+        "year_built": {
+          "type": "string",
+          "enum": [
+            "pre1945",
+            "1945-1970",
+            "1970-1990",
+            "1990-2010",
+            "post2010"
+          ]
+        },
+        "structure": {
+          "type": "string",
+          "enum": [
+            "concrete",
+            "steel",
+            "masonry",
+            "timber",
+            "unknown"
+          ]
+        },
+        "floors": {
+          "type": "string",
+          "enum": [
+            "1-3",
+            "4-6",
+            "7-10",
+            "10+"
+          ]
+        },
+        "condition": {
+          "type": "string",
+          "enum": [
+            "good",
+            "fair",
+            "poor",
+            "unknown"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "enum": [
+            "uk",
+            "western-eu",
+            "eastern-eu",
+            "uae"
+          ]
+        },
+        "bim": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "partial",
+            "no"
+          ]
+        }
+      },
+      "required": [
+        "current_use",
+        "proposed_use",
+        "year_built",
+        "structure",
+        "floors",
+        "condition",
+        "location",
+        "bim"
+      ]
+    }
+  },
+  {
+    "name": "eurocode_beam_designer",
+    "description": "Preliminary Eurocode beam design (steel EC3 / composite / reinforced concrete EC2). Selects a section, computes ULS bending & shear utilisation, SLS deflection, and fire protection. Indicative, not a stamped design.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "material": {
+          "type": "string",
+          "enum": [
+            "steel",
+            "composite",
+            "concrete"
+          ],
+          "description": "Beam material"
+        },
+        "config": {
+          "type": "string",
+          "enum": [
+            "ss",
+            "cant",
+            "cont"
+          ],
+          "description": "ss=simply supported, cant=cantilever, cont=continuous 2-span"
+        },
+        "span_m": {
+          "type": "number",
+          "description": "Span length (m)"
+        },
+        "udl_kn_m": {
+          "type": "number",
+          "description": "Characteristic uniformly distributed load (kN/m)"
+        },
+        "point_load_kn": {
+          "type": "number",
+          "description": "Characteristic point load (kN), optional"
+        },
+        "load_position": {
+          "type": "number",
+          "description": "Point-load position as fraction of span 0-1 (default 0.5)"
+        },
+        "grade": {
+          "type": "string",
+          "description": "Steel: s275/s355. Concrete: c2530/c3037/c3545"
+        },
+        "exposure": {
+          "type": "string",
+          "enum": [
+            "xc1",
+            "xc2",
+            "xc3"
+          ],
+          "description": "Concrete exposure class (cover)"
+        },
+        "fire_rating": {
+          "type": "string",
+          "enum": [
+            "r30",
+            "r60",
+            "r90",
+            "r120"
+          ],
+          "description": "Required fire rating"
+        }
+      },
+      "required": [
+        "material",
+        "config",
+        "span_m",
+        "udl_kn_m"
+      ]
+    }
+  },
+  {
+    "name": "eurocode_column_checker",
+    "description": "Eurocode axial column buckling check (steel EC3 6.3.1 flexural buckling / RC EC2 5.8 simplified). Returns Ncr, non-dimensional slenderness, reduction factor chi, NRd and utilisation. Indicative, not a stamped design.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "axial_load_kn": {
+          "type": "number",
+          "description": "Design axial load NEd (kN)"
+        },
+        "effective_length_m": {
+          "type": "number",
+          "description": "Effective (buckling) length Lcr (m)"
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "S275",
+            "S355",
+            "C25",
+            "C30"
+          ],
+          "description": "Section material"
+        },
+        "section": {
+          "type": "string",
+          "description": "Steel section key, e.g. UC203x203x46 (steel only)"
+        },
+        "buckling_curve": {
+          "type": "string",
+          "enum": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          "description": "EC3 buckling curve (steel only)"
+        },
+        "eccentricity_mm": {
+          "type": "number",
+          "description": "Load eccentricity (mm), optional"
+        },
+        "width_mm": {
+          "type": "number",
+          "description": "RC column width b (mm), concrete only"
+        },
+        "depth_mm": {
+          "type": "number",
+          "description": "RC column depth h (mm), concrete only"
+        },
+        "reinforcement_pct": {
+          "type": "number",
+          "description": "RC reinforcement ratio % (concrete only)"
+        }
+      },
+      "required": [
+        "axial_load_kn",
+        "effective_length_m",
+        "material"
+      ]
+    }
+  },
+  {
+    "name": "eu_cost_benchmarking",
+    "description": "Parametric construction cost benchmark across UK/EU/GCC by country, project type, specification, procurement, programme and BIM. Returns per-m2 and total cost ranges plus a cost breakdown. Indicative parametric estimate, validate against current cost indices.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "floor_area_m2": {
+          "type": "number",
+          "description": "Gross floor area (m2), min 100"
+        },
+        "country": {
+          "type": "string",
+          "enum": [
+            "UK",
+            "DE",
+            "FR",
+            "NL",
+            "ES",
+            "PL",
+            "RO",
+            "BE",
+            "AT",
+            "UAE",
+            "SA"
+          ],
+          "description": "Country"
+        },
+        "project_type": {
+          "type": "string",
+          "enum": [
+            "office_new",
+            "resi_new",
+            "data_centre",
+            "industrial",
+            "healthcare",
+            "retail",
+            "reno_light",
+            "reno_deep",
+            "infrastructure"
+          ],
+          "description": "Project type"
+        },
+        "specification": {
+          "type": "string",
+          "enum": [
+            "basic",
+            "standard",
+            "premium",
+            "ultra"
+          ]
+        },
+        "procurement": {
+          "type": "string",
+          "enum": [
+            "traditional",
+            "db",
+            "epc",
+            "ppp"
+          ]
+        },
+        "programme": {
+          "type": "string",
+          "enum": [
+            "accelerated",
+            "standard",
+            "extended"
+          ]
+        },
+        "bim": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        }
+      },
+      "required": [
+        "floor_area_m2",
+        "country",
+        "project_type"
+      ]
+    }
+  },
+  {
+    "name": "dgnb_bim_readiness",
+    "description": "DGNB certification pre-score and BIM (ISO 19650) maturity self-assessment from a 20-question checklist. Returns pre-score, achievable certification level, BIM level, domain breakdown and prioritised gaps. Not a formal DGNB audit.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "answers": {
+          "type": "object",
+          "description": "Map of question_id -> yes|partial|no. IDs: lca, materials, water, biodiversity, lcc, flexibility, value_stability, cert_budget, comfort, accessibility, wellbeing, satisfaction, bep, cde, competency, clash, integrated_team, commissioning, documentation, poe"
+        },
+        "cert_target": {
+          "type": "string",
+          "enum": [
+            "bronze",
+            "silver",
+            "gold",
+            "platinum"
+          ],
+          "description": "Target DGNB level"
+        }
+      },
+      "required": [
+        "answers"
+      ]
+    }
+  },
+  {
+    "name": "contractor_vetting",
+    "description": "NIS2 / EPBD contractor vetting score from a 12-question checklist across financial, technical, cyber (NIS2) and energy (EPBD) categories. Flags blocking (critical) failures and returns recommended additional checks. Not a formal due-diligence report.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "answers": {
+          "type": "object",
+          "description": "Map of question_id -> yes|no|unknown. IDs: registered, insurance, no_prosecutions, certifications, references, cvs, cyber_policy, incident_reporting, access_control, assessor_cert, energy_qual, reno_experience"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "nis2",
+            "epbd",
+            "general",
+            "critical"
+          ],
+          "description": "Vetting purpose"
+        }
+      },
+      "required": [
+        "answers"
+      ]
+    }
+  },
+  {
+    "name": "digital_renovation_passport",
+    "description": "EPBD-style staged digital renovation passport: 3-phase roadmap (quick wins, system upgrades, deep renovation) with cost ranges, energy savings and EPC trajectory from current EPC, floor area and heating type. Indicative.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "floor_area_m2": {
+          "type": "number",
+          "description": "Gross floor area (m2)"
+        },
+        "current_epc": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G"
+          ],
+          "description": "Current EPC band A-G"
+        },
+        "heating": {
+          "type": "string",
+          "enum": [
+            "gas",
+            "oil",
+            "hp",
+            "district",
+            "electric",
+            "biomass"
+          ],
+          "description": "Primary heating system"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country code (e.g. UK, DE)"
+        },
+        "address": {
+          "type": "string",
+          "description": "Building address (label only)"
+        },
+        "building_type": {
+          "type": "string",
+          "description": "Building type (label only)"
+        },
+        "era": {
+          "type": "string",
+          "description": "Construction era (label only)"
+        }
+      },
+      "required": [
+        "floor_area_m2",
+        "current_epc",
+        "heating"
+      ]
+    }
+  },
+  {
+    "name": "uk_planning_checker",
+    "description": "UK permitted-development (GPDO 2015, England) rules engine for extensions, loft conversions and change of use. Returns a verdict (likely_pd / requires_permission / complex), applicable PD class, conditions and flags (listed building, Article 4, conservation area, AONB). Indicative, verify with the LPA.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "property_type": {
+          "type": "string",
+          "enum": [
+            "house",
+            "flat",
+            "commercial",
+            "industrial",
+            "agricultural",
+            "mixed"
+          ]
+        },
+        "use_class": {
+          "type": "string",
+          "description": "Existing use class (C3, C1, E, B2, B8, F1, F2, SG)"
+        },
+        "proposal": {
+          "type": "string",
+          "enum": [
+            "extension",
+            "loft",
+            "outbuilding",
+            "cou",
+            "newdwelling",
+            "subdivision",
+            "demolition"
+          ]
+        },
+        "proposed_use": {
+          "type": "string",
+          "description": "Proposed use class (change of use only); 'same' if unchanged"
+        },
+        "location": {
+          "type": "string",
+          "enum": [
+            "england",
+            "wales",
+            "scotland",
+            "ni"
+          ]
+        },
+        "listed": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        },
+        "conservation_area": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        },
+        "national_park_aonb": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        },
+        "article_4": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "extension_depth_m": {
+          "type": "number",
+          "description": "Rear extension depth (m), for extension proposals"
+        }
+      },
+      "required": [
+        "property_type",
+        "proposal"
+      ]
+    }
+  },
+  {
+    "name": "part_s_ev",
+    "description": "UK Approved Document S 2021 electric-vehicle charge-point requirement calculator for new build and major renovation, residential and non-residential. Returns required charge points, cable routes (1-in-5 for non-residential), minimum power and the applicable cost caps/exemptions. Indicative.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "building_type": {
+          "type": "string",
+          "enum": [
+            "residential",
+            "non_residential"
+          ]
+        },
+        "works": {
+          "type": "string",
+          "enum": [
+            "new",
+            "major_renovation"
+          ]
+        },
+        "parking_spaces": {
+          "type": "integer",
+          "description": "Total associated parking spaces"
+        },
+        "dwellings": {
+          "type": "integer",
+          "description": "Number of dwellings (residential)"
+        },
+        "covered_car_park": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "description": "Non-residential covered car park?"
+        }
+      },
+      "required": [
+        "building_type",
+        "works",
+        "parking_spaces"
+      ]
+    }
+  },
+  {
+    "name": "part_o_overheating",
+    "description": "UK Approved Document O 2021 simplified-method overheating check for new residential: tests maximum glazing area (by orientation, risk zone, cross vs single aspect) and minimum free ventilation area. Returns pass/fail and points to CIBSE TM59 modelling if it fails. Indicative.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "location_risk": {
+          "type": "string",
+          "enum": [
+            "high",
+            "moderate"
+          ],
+          "description": "high = listed London postcode districts (AD O Table C1)"
+        },
+        "cross_ventilation": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        },
+        "most_glazed_facade": {
+          "type": "string",
+          "enum": [
+            "N",
+            "E",
+            "S",
+            "W"
+          ]
+        },
+        "floor_area_m2": {
+          "type": "number"
+        },
+        "glazing_area_m2": {
+          "type": "number"
+        },
+        "provided_free_area_m2": {
+          "type": "number",
+          "description": "Total openable free area provided (optional)"
+        }
+      },
+      "required": [
+        "location_risk",
+        "most_glazed_facade",
+        "floor_area_m2",
+        "glazing_area_m2"
+      ]
+    }
+  },
+  {
+    "name": "mees_checker",
+    "description": "England & Wales Minimum Energy Efficiency Standard (MEES) check for private rented property. Tests against the in-force EPC E minimum (domestic and non-domestic) and surfaces the PROPOSED (not yet law) EPC C / 2030 uplift as an advisory only. Returns compliance, can-let, cost cap and penalties.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "property_type": {
+          "type": "string",
+          "enum": [
+            "domestic",
+            "non_domestic"
+          ]
+        },
+        "current_epc_band": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G"
+          ]
+        }
+      },
+      "required": [
+        "property_type",
+        "current_epc_band"
+      ]
+    }
+  },
+  {
+    "name": "heatpump_heatloss",
+    "description": "Domestic whole-dwelling fabric + ventilation heat-loss estimate for heat pump sizing (BS EN 12831 / MCS), from floor area, storeys, age band, location and glazing. Returns design heat loss (kW), recommended heat pump output, indicative SCOP and annual demand. Typical U-values/SCOP, not measured.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "floor_area_m2": {
+          "type": "number"
+        },
+        "storeys": {
+          "type": "integer"
+        },
+        "age_band": {
+          "type": "string",
+          "enum": [
+            "pre_1900",
+            "1900_1929",
+            "1930_1949",
+            "1950_1966",
+            "1967_1975",
+            "1976_1982",
+            "1983_1990",
+            "1991_1995",
+            "1996_2002",
+            "2003_2006",
+            "2007_2011",
+            "2012_2022",
+            "2023_plus"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "enum": [
+            "london",
+            "birmingham",
+            "manchester",
+            "glasgow",
+            "edinburgh",
+            "leeds",
+            "newcastle",
+            "cardiff",
+            "belfast",
+            "plymouth",
+            "southampton"
+          ]
+        },
+        "external_design_temp_c": {
+          "type": "number",
+          "description": "Override 99.6% external design temp"
+        },
+        "internal_design_temp_c": {
+          "type": "number",
+          "description": "Default 21"
+        },
+        "ceiling_height_m": {
+          "type": "number",
+          "description": "Default 2.4"
+        },
+        "glazing_pct_of_floor": {
+          "type": "number",
+          "description": "Default 25"
+        },
+        "air_change_rate": {
+          "type": "number",
+          "description": "ACH, default 0.5"
+        },
+        "flow_temp_c": {
+          "type": "integer",
+          "enum": [
+            35,
+            45,
+            55
+          ],
+          "description": "Emitter flow temperature"
+        }
+      },
+      "required": [
+        "floor_area_m2",
+        "age_band",
+        "location"
+      ]
+    }
+  },
+  {
+    "name": "eed_datacentre_pack",
+    "description": "EU Energy Efficiency Directive data-centre reporting pack (Dir (EU) 2023/1791 Art.12 + Del. Reg (EU) 2024/1364). Determines reporting scope (IT power >= 500 kW) and computes the mandated KPIs PUE, WUE, ERF and REF. Note: the regulation mandates reporting, not target values.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "it_power_kw": {
+          "type": "number",
+          "description": "Installed IT power demand (kW)"
+        },
+        "total_energy_kwh": {
+          "type": "number",
+          "description": "EDC: total data-centre energy (kWh/yr)"
+        },
+        "it_energy_kwh": {
+          "type": "number",
+          "description": "EIT: IT energy (kWh/yr)"
+        },
+        "water_input_m3": {
+          "type": "number",
+          "description": "WIN: total water input (m3/yr), for WUE"
+        },
+        "renewable_energy_kwh": {
+          "type": "number",
+          "description": "ERES-TOT renewable energy consumed, for REF"
+        },
+        "reused_heat_kwh": {
+          "type": "number",
+          "description": "EREUSE waste heat reused, for ERF"
+        }
+      },
+      "required": [
+        "it_power_kw",
+        "total_energy_kwh",
+        "it_energy_kwh"
+      ]
+    }
+  },
+  {
+    "name": "uae_climate_ghg",
+    "description": "UAE Scope 1 + Scope 2 GHG estimate from electricity and gas use, with emirate-specific grid emission factors (Dubai/Abu Dhabi/national) and the Federal Decree-Law No. 11 of 2024 mandatory-reporting context. Grid factors carry base-year/confidence caveats.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "emirate": {
+          "type": "string",
+          "enum": [
+            "dubai",
+            "abu_dhabi",
+            "national"
+          ]
+        },
+        "electricity_kwh": {
+          "type": "number",
+          "description": "Annual grid electricity (kWh)"
+        },
+        "gas_kwh": {
+          "type": "number",
+          "description": "Annual natural gas (kWh)"
+        },
+        "gas_m3": {
+          "type": "number",
+          "description": "Annual natural gas (m3), alternative to gas_kwh"
+        }
+      },
+      "required": [
+        "emirate",
+        "electricity_kwh"
+      ]
+    }
+  },
+  {
+    "name": "sap_sbem_precheck",
+    "description": "UK SAP 10.3 / SBEM EPC precheck. Maps a known SAP rating (1-100) to its EPC band, and/or computes annual CO2 and primary energy from fuel consumption using validated SAP 10 fuel factors. The official EPC band is cost-based and needs a full SAP/RdSAP assessment.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "sap_rating": {
+          "type": "number",
+          "description": "Known SAP rating 1-100 (returns the EPC band)"
+        },
+        "annual_energy_kwh": {
+          "type": "object",
+          "description": "Map fuel -> kWh/yr. Fuels: mains_gas, grid_electricity, heating_oil, lpg, wood_pellets, wood_logs, wood_chips, biomass_community"
+        },
+        "floor_area_m2": {
+          "type": "number",
+          "description": "For carbon/primary-energy intensity"
+        }
+      },
+      "required": []
+    }
+  }
+]
