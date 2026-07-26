@@ -12,7 +12,7 @@ calculators themselves run on the hosted service.
 - Hosted endpoint: `https://api.novtriq.tech/mcp` (streamable-http, keyless free tier)
 - Transport: JSON-RPC 2.0 over HTTP
 - Tools: 27
-- Provider: Novus Projects Ltd (NOVTRIQ), UK engineering consultancy
+- Provider: NOVTRIQ, UK engineering intelligence
 
 ## Use the hosted server directly
 
