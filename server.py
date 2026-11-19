@@ -3,7 +3,7 @@ NOVTRIQ Engineering Intelligence MCP — public catalogue server.
 
 This is the open, self-hostable face of the NOVTRIQ MCP. It advertises the full
 tool catalogue (initialize / tools/list) so any MCP client or aggregator can
-discover the 27 engineering tools, and it forwards actual execution (tools/call)
+discover the engineering tools, and it forwards actual execution (tools/call)
 to the authoritative hosted endpoint. The tool implementations (the engineering
 calculators) run on the hosted service, not in this repository.
 
@@ -33,7 +33,7 @@ _TOOLS = json.loads((pathlib.Path(__file__).parent / "tools.json").read_text(enc
 SERVER_INFO = {
     "name": "novtriq-engineering",
     "version": "3.0.0",
-    "description": "NOVTRIQ Engineering Intelligence MCP — %d tools for data centres, "
+    "description": "NOVTRIQ Engineering Intelligence MCP — %d tools for "
                    "building energy and carbon, UK building regulations, Eurocode structural "
                    "and cost, cyber and certification, and UAE compliance." % len(_TOOLS),
 }
