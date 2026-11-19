@@ -1,7 +1,7 @@
 # NOVTRIQ Engineering Intelligence MCP
 
-An MCP (Model Context Protocol) server exposing 27 engineering intelligence tools for
-data centres and critical facilities, building energy and carbon, UK building
+An MCP (Model Context Protocol) server exposing 24 engineering intelligence tools for
+building energy and carbon, HVAC, UK building
 regulations, Eurocode structural and cost, cyber and certification, and UAE compliance.
 
 This repository is the open, self-hostable catalogue face of the NOVTRIQ MCP. It
@@ -11,7 +11,7 @@ calculators themselves run on the hosted service.
 
 - Hosted endpoint: `https://api.novtriq.tech/mcp` (streamable-http, keyless free tier)
 - Transport: JSON-RPC 2.0 over HTTP
-- Tools: 27
+- Tools: 24
 - Provider: NOVTRIQ, UK engineering intelligence
 
 ## Use the hosted server directly
@@ -59,9 +59,8 @@ curl -s -X POST http://localhost:8080/mcp \
 
 ## Tool catalogue
 
-### Data centres and critical facilities
-`calculate_pue` (IEC 30134-2 / ASHRAE TC 9.9), `estimate_cooling_load` (CIBSE Guide B2 /
-ASHRAE 90.1), `thermal_load`, `eed_datacentre_pack` (EU 2023/1791 Art.12, Reg 2024/1364)
+### HVAC
+`estimate_cooling_load` (CIBSE Guide B2 / ASHRAE 90.1)
 
 ### Building energy, carbon and EPC
 `assess_epbd_score` (EU 2024/1275), `calculate_carbon` (CIBSE TM65 / RICS WLCA),
