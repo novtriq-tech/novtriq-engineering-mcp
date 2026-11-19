@@ -1,36 +1,5 @@
 [
   {
-    "name": "calculate_pue",
-    "description": "Calculate Power Usage Effectiveness (PUE) for a data centre or server room. Returns PUE score, efficiency rating, annual cost estimate, and engineering recommendations.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "it_load_kw": {
-          "type": "number",
-          "description": "IT equipment power draw in kW. Example: 500"
-        },
-        "cooling_kw": {
-          "type": "number",
-          "description": "Total cooling system power in kW. Example: 200"
-        },
-        "ups_losses_kw": {
-          "type": "number",
-          "description": "UPS and power distribution losses in kW. Example: 25"
-        },
-        "lighting_kw": {
-          "type": "number",
-          "description": "Lighting power in kW. Example: 1.5"
-        }
-      },
-      "required": [
-        "it_load_kw",
-        "cooling_kw",
-        "ups_losses_kw",
-        "lighting_kw"
-      ]
-    }
-  },
-  {
     "name": "check_nis2_readiness",
     "description": "Assess NIS2 Directive (EU 2022/2555) compliance readiness. Returns compliance score (0-18), maturity level, estimated fine exposure, and prioritised remediation actions.",
     "inputSchema": {
@@ -152,8 +121,6 @@
           "type": "string",
           "enum": [
             "office",
-            "data_centre",
-            "server_room",
             "retail",
             "industrial"
           ]
@@ -163,7 +130,7 @@
         },
         "it_load_kw": {
           "type": "number",
-          "description": "Required for data_centre/server_room. Set 0 for others."
+          "description": "Process or equipment heat load (kW). Set 0 if none."
         },
         "occupancy_persons": {
           "type": "integer"
@@ -335,7 +302,6 @@
         "intended_use": {
           "type": "string",
           "enum": [
-            "data_centre",
             "commercial",
             "industrial",
             "mixed"
@@ -366,7 +332,7 @@
       "properties": {
         "building_type": {
           "type": "string",
-          "description": "office, data_centre, industrial, retail, residential, mixed_use, hotel, warehouse, healthcare"
+          "description": "office, industrial, retail, residential, mixed_use, hotel, warehouse, healthcare"
         },
         "gross_area_m2": {
           "type": "number"
@@ -449,57 +415,6 @@
     }
   },
   {
-    "name": "thermal_load",
-    "description": "Thermal Load Estimator for data centres / critical facilities. Returns total heat load, cooling capacity, units, airflow, chiller size, PUE estimate, power density, and a CRAC/CRAH/DLC/immersion comparison.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "it_load_kw": {
-          "type": "number"
-        },
-        "ups_efficiency_pct": {
-          "type": "number",
-          "description": "1-99.9"
-        },
-        "lighting_kw": {
-          "type": "number",
-          "description": "default 5"
-        },
-        "room_area_m2": {
-          "type": "number"
-        },
-        "cooling_type": {
-          "type": "string",
-          "enum": [
-            "crac",
-            "crah",
-            "dlc",
-            "immersion"
-          ]
-        },
-        "redundancy": {
-          "type": "string",
-          "enum": [
-            "n",
-            "n1",
-            "2n"
-          ]
-        },
-        "ambient_temp_c": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "it_load_kw",
-        "ups_efficiency_pct",
-        "room_area_m2",
-        "cooling_type",
-        "redundancy",
-        "ambient_temp_c"
-      ]
-    }
-  },
-  {
     "name": "roi_calculator",
     "description": "Engineering ROI calculator. Returns current manual cost, annual saving, net benefit, ROI %, payback months, 3-year NPV and a verdict.",
     "inputSchema": {
@@ -548,7 +463,6 @@
             "office",
             "retail",
             "industrial",
-            "datacentre",
             "healthcare",
             "education",
             "residential"
@@ -859,7 +773,6 @@
           "enum": [
             "office_new",
             "resi_new",
-            "data_centre",
             "industrial",
             "healthcare",
             "retail",
@@ -1312,44 +1225,6 @@
         "floor_area_m2",
         "age_band",
         "location"
-      ]
-    }
-  },
-  {
-    "name": "eed_datacentre_pack",
-    "description": "EU Energy Efficiency Directive data-centre reporting pack (Dir (EU) 2023/1791 Art.12 + Del. Reg (EU) 2024/1364). Determines reporting scope (IT power >= 500 kW) and computes the mandated KPIs PUE, WUE, ERF and REF. Note: the regulation mandates reporting, not target values.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "it_power_kw": {
-          "type": "number",
-          "description": "Installed IT power demand (kW)"
-        },
-        "total_energy_kwh": {
-          "type": "number",
-          "description": "EDC: total data-centre energy (kWh/yr)"
-        },
-        "it_energy_kwh": {
-          "type": "number",
-          "description": "EIT: IT energy (kWh/yr)"
-        },
-        "water_input_m3": {
-          "type": "number",
-          "description": "WIN: total water input (m3/yr), for WUE"
-        },
-        "renewable_energy_kwh": {
-          "type": "number",
-          "description": "ERES-TOT renewable energy consumed, for REF"
-        },
-        "reused_heat_kwh": {
-          "type": "number",
-          "description": "EREUSE waste heat reused, for ERF"
-        }
-      },
-      "required": [
-        "it_power_kw",
-        "total_energy_kwh",
-        "it_energy_kwh"
       ]
     }
   },
