@@ -2,7 +2,7 @@
 stdio_server.py — NOVTRIQ Engineering Intelligence MCP over stdio.
 
 Companion to server.py (HTTP). This variant speaks the MCP stdio transport, which
-is what mcp-proxy / Glama's build checker wrap. It advertises the same 27 tool
+is what mcp-proxy / Glama's build checker wrap. It advertises the same tool
 definitions from tools.json (served locally, so initialize and tools/list work with
 no network) and forwards tools/call to the authoritative hosted endpoint. The
 engineering calculators stay on the hosted service.
